@@ -14,7 +14,7 @@ Característica: Inicio de sesión en SauceDemo
   Escenario: Login fallido con usuario bloqueado
     Dado que el usuario navega a la página de login
     Cuando ingresa el usuario "locked_out_user" y la contraseña "secret_sauce"
-    Entonces debe ver el mensaje de error "Sorry, this user has been locked out"
+    Entonces debe ver el mensaje de error "Sorry, this user has been locked ou"
 
   Escenario: Login con campos vacíos
     Dado que el usuario navega a la página de login
