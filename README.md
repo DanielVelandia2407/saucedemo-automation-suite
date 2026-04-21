@@ -39,6 +39,28 @@ mvn test -Dcucumber.filter.tags="@smoke or @regression"
 mvn verify -Dcucumber.filter.tags="@smoke or @regression"
 ```
 
+### Reporte con Allure
+
+```bash
+# Ejecutar tests y luego generar el reporte HTML de Allure
+mvn verify -Dcucumber.filter.tags="@smoke or @regression"
+mvn allure:report
+
+# Ejecutar tests y abrir el reporte en el navegador automáticamente
+mvn verify -Dcucumber.filter.tags="@smoke or @regression"
+mvn allure:serve
+```
+
+### Reporte con Serenity
+
+```bash
+# Ejecutar tests con el perfil Serenity y generar su reporte
+mvn verify -Pserenity -Dcucumber.filter.tags="@smoke"
+
+# Con la suite completa de regresión
+mvn verify -Pserenity -Dcucumber.filter.tags="@regression"
+```
+
 ### Modo no headless (debug visual)
 
 Editar `src/test/java/utils/DriverManager.java` y comentar la línea:
@@ -61,7 +83,21 @@ target/cucumber-reports/
     └── overview-features.html                 ← Reporte enriquecido (masterthought)
 ```
 
-Abrir en el navegador:
+Después de `mvn allure:report`:
+
+```
+target/site/allure-maven-plugin/
+└── index.html                                 ← Reporte Allure
+```
+
+Después de `mvn verify -Pserenity`:
+
+```
+target/site/serenity/
+└── index.html                                 ← Reporte Serenity
+```
+
+Abrir en el navegador (reporte masterthought):
 ```
 target/cucumber-reports/cucumber-html-reports/overview-features.html
 ```
