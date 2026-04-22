@@ -25,7 +25,7 @@ public class DriverManager {
             ChromeOptions options = new ChromeOptions();
             // Headless por defecto; pasar -Dheadless=false para ver el navegador localmente
             if (!"false".equalsIgnoreCase(System.getProperty("headless", "true"))) {
-                options.addArguments("--headless=new");
+            //    options.addArguments("--headless=new");
             }
             options.addArguments("--no-sandbox");
             options.addArguments("--disable-dev-shm-usage");
