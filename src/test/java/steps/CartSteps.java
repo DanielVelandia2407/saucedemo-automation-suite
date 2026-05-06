@@ -47,9 +47,12 @@ public class CartSteps {
 
     @Entonces("el producto debe aparecer en el carrito")
     public void verifyProductInCart() {
+        // Log de la URL actual antes de la aserción
+        String currentUrl = DriverManager.getDriver().getCurrentUrl();
+        System.out.println("[DEBUG] URL actual al entrar al assert del carrito: " + currentUrl);
         Assert.assertTrue(
-                "La URL no corresponde a la página del carrito",
-                cartPage.isOnCartPage()
+                "La URL no corresponde a la página del carrito. URL actual: " + currentUrl,
+                currentUrl.contains("/cart.html")
         );
         Assert.assertTrue(
                 "El producto '" + addedProductName + "' no se encontró en el carrito",
