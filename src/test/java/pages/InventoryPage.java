@@ -73,6 +73,6 @@ public class InventoryPage {
     public void goToCart() {
         wait.until(ExpectedConditions.elementToBeClickable(cartIcon));
         cartIcon.click();
-        wait.until(ExpectedConditions.urlContains("cart"));
+        wait.until(ExpectedConditions.urlContains("/cart.html"));
     }
 }

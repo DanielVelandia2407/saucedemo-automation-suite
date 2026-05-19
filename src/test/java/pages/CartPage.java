@@ -37,7 +37,7 @@ public class CartPage {
     }
 
     public boolean isOnCartPage() {
-        return driver.getCurrentUrl().contains("cart");
+        return driver.getCurrentUrl().contains("/cart.html");
     }
 
     public int getCartItemCount() {
