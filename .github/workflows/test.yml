@@ -8,6 +8,17 @@ on:
   schedule:
     # Lunes a viernes a las 7:00am UTC
     - cron: '0 7 * * 1-5'
+  workflow_dispatch:
+    inputs:
+      tags:
+        description: 'Suite a ejecutar'
+        required: true
+        type: choice
+        default: '@regression'
+        options:
+          - '@regression'
+          - '@smoke'
+          - '@smoke or @regression'
 
 jobs:
   test:
@@ -36,7 +47,10 @@ jobs:
       - name: Determinar tags a ejecutar
         id: tags
         run: |
-          if [ "${{ github.event_name }}" = "schedule" ]; then
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "tags=${{ github.event.inputs.tags }}" >> "$GITHUB_OUTPUT"
+            echo "label=Manual (${{ github.event.inputs.tags }})" >> "$GITHUB_OUTPUT"
+          elif [ "${{ github.event_name }}" = "schedule" ]; then
             echo "tags=@regression" >> "$GITHUB_OUTPUT"
             echo "label=Regresión (schedule)" >> "$GITHUB_OUTPUT"
           else

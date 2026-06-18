@@ -1,6 +1,7 @@
 package pages;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -45,7 +46,11 @@ public class InventoryPage {
         wait.until(ExpectedConditions.visibilityOfAllElements(inventoryItems));
         WebElement firstItem = inventoryItems.get(0);
         String productName = firstItem.findElement(By.className("inventory_item_name")).getText();
-        firstItem.findElement(By.cssSelector("button[data-test^='add-to-cart']")).click();
+        WebElement addButton = firstItem.findElement(By.cssSelector("button[data-test^='add-to-cart']"));
+        jsClick(addButton);
+        // Confirma que el click se registró antes de continuar (en headless el click
+        // sintético puede perderse; esperar el badge garantiza determinismo).
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".shopping_cart_badge")));
         return productName;
     }
 
@@ -71,8 +76,17 @@ public class InventoryPage {
     }
 
     public void goToCart() {
-        wait.until(ExpectedConditions.elementToBeClickable(cartIcon));
-        cartIcon.click();
+        WebElement cartLink = wait.until(ExpectedConditions.elementToBeClickable(
+                By.cssSelector("a.shopping_cart_link")));
+        jsClick(cartLink);
         wait.until(ExpectedConditions.urlContains("/cart.html"));
+    }
+
+    /**
+     * Click vía JavaScript: dispara el manejador onClick de React directamente,
+     * evitando que el click sintético se pierda en Chrome headless (Linux/CI).
+     */
+    private void jsClick(WebElement element) {
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", element);
     }
 }
